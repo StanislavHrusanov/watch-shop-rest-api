@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { jwtSign } = require('../utils/jwtPromises');
 const { SALT_ROUNDS, SECRET } = require('../config/env');
 
-exports.createSession = (user) => {
+exports.createSession = async (user) => {
     const payload = {
         _id: user._id,
         username: user.username,
@@ -12,7 +12,7 @@ exports.createSession = (user) => {
 
     const options = { expiresIn: '2d' }
 
-    const accessToken = jwtSign(payload, SECRET, options);
+    const accessToken = await jwtSign(payload, SECRET, options);
 
     return {
         _id: user._id,
