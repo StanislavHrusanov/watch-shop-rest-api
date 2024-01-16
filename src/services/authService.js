@@ -43,3 +43,19 @@ exports.register = async ({ username, firstName, lastName, password, email, addr
 
     return this.createSession(createdUser);
 }
+
+exports.login = async ({ username, password }) => {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+        throw 'Невалидно потребителско име или парола!';
+    }
+
+    const isValid = await bcrypt.compare(password, user.password);
+
+    if (!isValid) {
+        throw 'Невалидно потребителско име или парола!';
+    }
+
+    return this.createSession(user);
+}
