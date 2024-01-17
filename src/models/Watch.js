@@ -16,6 +16,10 @@ const watchSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    imageUrl: {
+        type: String,
+        required: true
+    },
     type: {
         type: String,
         required: true
@@ -80,7 +84,7 @@ const watchSchema = new mongoose.Schema({
             type: String
         }
     }, { timestamps: true }]
-});
+}, { timestamps: true });
 
 const Watch = mongoose.model('Watch', watchSchema);
 
