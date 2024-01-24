@@ -9,3 +9,5 @@ exports.getWatchesByType = (type) => Watch.find({ type: type }).sort({ createdAt
 exports.getOne = (watchId) => Watch.findById(watchId);
 
 exports.edit = (watchId, watchData) => Watch.findByIdAndUpdate(watchId, watchData);
+
+exports.delete = (watchId) => Watch.findByIdAndDelete(watchId);

@@ -79,5 +79,18 @@ router.put('/:watchId', async (req, res) => {
     }
 });
 
+router.delete('/:watchId', async (req, res) => {
+    const watchId = req.params.watchId;
+
+    try {
+        await watchService.delete(watchId);
+        res.status(204).end();
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 
 module.exports = router;
