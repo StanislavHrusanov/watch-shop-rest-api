@@ -2,8 +2,9 @@ const router = require('express').Router();
 const watchService = require('../services/watchService');
 const validation = require('../utils/validation');
 const { mapErrors } = require('../utils/errorMapper');
+const { isAdmin } = require('../middlewares/routGuards');
 
-router.post('/', async (req, res) => {
+router.post('/', isAdmin, async (req, res) => {
     const watch = req.body;
 
     try {
@@ -68,7 +69,7 @@ router.get('/:watchId', async (req, res) => {
     }
 });
 
-router.put('/:watchId', async (req, res) => {
+router.put('/:watchId', isAdmin, async (req, res) => {
     const watchId = req.params.watchId;
     const watchData = req.body;
 
@@ -84,7 +85,7 @@ router.put('/:watchId', async (req, res) => {
     }
 });
 
-router.delete('/:watchId', async (req, res) => {
+router.delete('/:watchId', isAdmin, async (req, res) => {
     const watchId = req.params.watchId;
 
     try {
