@@ -51,5 +51,19 @@ router.get('/women', async (req, res) => {
     }
 });
 
+router.get('/:watchId', async (req, res) => {
+    const watchId = req.params.watchId;
+
+    try {
+        const watch = await watchService.getOne(watchId);
+        res.json(watch);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.json({ message: error });
+    }
+});
+
 
 module.exports = router;
