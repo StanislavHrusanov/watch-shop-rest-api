@@ -18,36 +18,36 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const watches = await watchService.getAll();
-        res.json(watches);
+        res.status(200).json(watches);
 
     } catch (err) {
         const error = mapErrors(err);
         console.error(error);
-        res.json({ message: error });
+        res.status(400).json({ message: error });
     }
 });
 
 router.get('/men', async (req, res) => {
     try {
         const watches = await watchService.getWatchesByType('Мъжки');
-        res.json(watches);
+        res.status(200).json(watches);
 
     } catch (err) {
         const error = mapErrors(err);
         console.error(error);
-        res.json({ message: error });
+        res.status(400).json({ message: error });
     }
 });
 
 router.get('/women', async (req, res) => {
     try {
         const watches = await watchService.getWatchesByType('Дамски');
-        res.json(watches);
+        res.status(200).json(watches);
 
     } catch (err) {
         const error = mapErrors(err);
         console.error(error);
-        res.json({ message: error });
+        res.status(400).json({ message: error });
     }
 });
 
@@ -56,12 +56,26 @@ router.get('/:watchId', async (req, res) => {
 
     try {
         const watch = await watchService.getOne(watchId);
-        res.json(watch);
+        res.status(200).json(watch);
 
     } catch (err) {
         const error = mapErrors(err);
         console.error(error);
-        res.json({ message: error });
+        res.status(400).json({ message: error });
+    }
+});
+
+router.put('/:watchId', async (req, res) => {
+    const watchId = req.params.watchId;
+    const watchData = req.body;
+
+    try {
+        const editedWatch = await watchService.edit(watchId, watchData);
+        res.status(200).json(editedWatch);
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
     }
 });
 
