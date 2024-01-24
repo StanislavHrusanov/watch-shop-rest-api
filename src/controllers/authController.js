@@ -2,8 +2,9 @@ const router = require('express').Router();
 const authService = require('../services/authService');
 const validation = require('../utils/validation');
 const { mapErrors } = require('../utils/errorMapper');
+const { isGuest, isLoggedIn } = require('../middlewares/authMiddleware');
 
-router.post('/register', async (req, res) => {
+router.post('/register', isGuest, async (req, res) => {
     const userData = req.body;
 
     try {
@@ -19,7 +20,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', isGuest, async (req, res) => {
     const userData = req.body;
     userData.username = userData.username.trim();
     userData.password = userData.password.trim();
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.get('/logout', async (req, res) => {
+router.get('/logout', isLoggedIn, async (req, res) => {
     if (req.user) {
         req.user = null;
     }

@@ -16,3 +16,17 @@ exports.auth = async (req, res, next) => {
     }
     next();
 }
+
+exports.isLoggedIn = (req, res, next) => {
+    if (!req.user) {
+        res.status(401).json({ message: 'Моля влезте в профила си!' });
+    }
+    next();
+}
+
+exports.isGuest = (req, res, next) => {
+    if (req.user) {
+        res.status(400).json({ message: 'Вече сте влезли в профила си!' });
+    }
+    next();
+}
