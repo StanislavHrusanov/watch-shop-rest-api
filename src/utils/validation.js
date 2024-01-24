@@ -1,4 +1,13 @@
-exports.validateUser = ({ username, firstName, lastName, password, repass, email, address, phoneNumber }) => {
+exports.validateUser = ({
+    username,
+    firstName,
+    lastName,
+    password,
+    repass,
+    email,
+    address,
+    phoneNumber
+}) => {
     if (username.length < 3 || username.includes(' ')) {
         throw ('Потребителското име трябва да съдържа поне 3 символа различни от интервал!');
     }
@@ -22,5 +31,78 @@ exports.validateUser = ({ username, firstName, lastName, password, repass, email
     }
     if (phoneNumber == '') {
         throw ('Телефонният номер е задължителен!');
+    }
+}
+
+exports.validateWatch = ({
+    title,
+    brand,
+    model,
+    imageUrl,
+    type,
+    movement,
+    glass,
+    waterResistance,
+    diameter,
+    bodyMaterial,
+    strapMaterial,
+    display,
+    displayColor,
+    strapColor,
+    warrantyInYears,
+    quantity
+}) => {
+    const types = ['Мъжки', 'Дамски'];
+
+    if (title == '') {
+        throw 'Заглавието е задължително!';
+    }
+    if (brand == '') {
+        throw 'Марката е задължителна!';
+    }
+    if (model == '') {
+        throw 'Моделът е задължителен!';
+    }
+    if (!imageUrl.match(/https*:\/\/.*/g)) {
+        throw 'Невалиден линк към снимка!';
+    }
+    if (!types.includes(type)) {
+        throw 'Типът може да бъде "Мъжки" или "Дамски"!';
+    }
+    if (movement == '') {
+        throw 'Видът механизъм е задължителен!';
+    }
+    if (glass == '') {
+        throw 'Видът стъкло е задължителен!';
+    }
+    if (waterResistance == '') {
+        throw 'Водоустойчивостта е задължителна!';
+    }
+    if (movement == '') {
+        throw 'Видът механизъм е задължителен!';
+    }
+    if (diameter == '') {
+        throw 'Диаметърът е задължителен!';
+    }
+    if (bodyMaterial == '') {
+        throw 'Материалът на корпуса е задължителен!';
+    }
+    if (strapMaterial == '') {
+        throw 'Материалът на каишката/верижката е задължителен!';
+    }
+    if (display == '') {
+        throw 'Видът дисплей е задължителен!';
+    }
+    if (displayColor == '') {
+        throw 'Цветът на дисплея е задължителен!';
+    }
+    if (strapColor == '') {
+        throw 'Цветът на каишката/верижката е задължителен!';
+    }
+    if (!warrantyInYears.match(/^[1-9][0-9]*$/g)) {
+        throw ('Гаранцията е задължителна и трябва да бъде положително число!');
+    }
+    if (!quantity.match(/^[0-9]+$/g)) {
+        throw ('Количеството е задължително и трябва да бъде положително число!');
     }
 }
