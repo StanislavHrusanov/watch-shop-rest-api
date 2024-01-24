@@ -8,10 +8,6 @@ const watchSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    collection: {
-        type: String,
-        required: true
-    },
     model: {
         type: String,
         required: true
@@ -37,10 +33,6 @@ const watchSchema = new mongoose.Schema({
         required: true
     },
     diameter: {
-        type: String,
-        required: true
-    },
-    shape: {
         type: String,
         required: true
     },
