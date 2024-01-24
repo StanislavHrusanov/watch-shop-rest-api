@@ -1,11 +1,14 @@
 const router = require('express').Router();
 const authService = require('../services/authService');
+const validation = require('../utils/validation');
 const { mapErrors } = require('../utils/errorMapper');
 
 router.post('/register', async (req, res) => {
     const userData = req.body;
 
     try {
+        validation.validateUser(userData);
+
         const userSession = await authService.register(userData);
         res.status(201).json(userSession);
 
