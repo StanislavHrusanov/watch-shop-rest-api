@@ -39,6 +39,7 @@ exports.validateWatch = ({
     brand,
     model,
     imageUrl,
+    price,
     type,
     movement,
     glass,
@@ -46,11 +47,9 @@ exports.validateWatch = ({
     diameter,
     bodyMaterial,
     strapMaterial,
-    display,
-    displayColor,
-    strapColor,
     warrantyInYears,
-    quantity
+    quantity,
+    description
 }) => {
     const types = ['Мъжки', 'Дамски'];
 
@@ -65,6 +64,9 @@ exports.validateWatch = ({
     }
     if (!imageUrl.match(/https*:\/\/.*/g)) {
         throw 'Невалиден линк към снимка!';
+    }
+    if (!price.match(/^[0-9]+$/g)) {
+        throw 'Цената е задължителна и трябва да бъде положително число!';
     }
     if (!types.includes(type)) {
         throw 'Типът може да бъде "Мъжки" или "Дамски"!';
@@ -90,19 +92,13 @@ exports.validateWatch = ({
     if (strapMaterial == '') {
         throw 'Материалът на каишката/верижката е задължителен!';
     }
-    if (display == '') {
-        throw 'Видът дисплей е задължителен!';
-    }
-    if (displayColor == '') {
-        throw 'Цветът на дисплея е задължителен!';
-    }
-    if (strapColor == '') {
-        throw 'Цветът на каишката/верижката е задължителен!';
-    }
     if (!warrantyInYears.match(/^[1-9][0-9]*$/g)) {
-        throw ('Гаранцията е задължителна и трябва да бъде положително число!');
+        throw 'Гаранцията е задължителна и трябва да бъде положително число!';
     }
     if (!quantity.match(/^[0-9]+$/g)) {
-        throw ('Количеството е задължително и трябва да бъде положително число!');
+        throw 'Количеството е задължително и трябва да бъде положително число!';
+    }
+    if (typeof description !== 'object') {
+        throw 'Описанието трябва да е масив!';
     }
 }
