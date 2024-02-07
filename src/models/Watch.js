@@ -16,6 +16,16 @@ const watchSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: Array
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    salePrice: {
+        type: Number
+    },
     type: {
         type: String,
         required: true
@@ -41,18 +51,6 @@ const watchSchema = new mongoose.Schema({
         required: true
     },
     strapMaterial: {
-        type: String,
-        required: true
-    },
-    display: {
-        type: String,
-        required: true
-    },
-    displayColor: {
-        type: String,
-        required: true
-    },
-    strapColor: {
         type: String,
         required: true
     },
