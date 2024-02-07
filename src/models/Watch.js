@@ -16,9 +16,6 @@ const watchSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    description: {
-        type: Array
-    },
     price: {
         type: Number,
         required: true
@@ -61,6 +58,9 @@ const watchSchema = new mongoose.Schema({
     quantity: {
         type: Number,
         required: true
+    },
+    description: {
+        type: Array
     },
     reviews: [{
         owner: {
