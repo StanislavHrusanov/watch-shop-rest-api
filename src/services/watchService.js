@@ -1,4 +1,5 @@
 const Watch = require('../models/Watch');
+const Brand = require('../models/Brand');
 
 exports.create = (watch) => Watch.create(watch);
 
@@ -11,3 +12,7 @@ exports.getOne = (watchId) => Watch.findById(watchId);
 exports.edit = (watchId, watchData) => Watch.findByIdAndUpdate(watchId, watchData);
 
 exports.delete = (watchId) => Watch.findByIdAndDelete(watchId);
+
+exports.getBrandsLogo = () => Brand.find().sort({ brand: 1 });
+
+exports.addBrand = (brand) => Brand.create(brand);

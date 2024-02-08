@@ -4,7 +4,7 @@ const validation = require('../utils/validation');
 const { mapErrors } = require('../utils/errorMapper');
 const { isAdmin } = require('../middlewares/routGuards');
 
-router.post('/', isAdmin, async (req, res) => {
+router.post('/', async (req, res) => {
     const watch = req.body;
 
     try {
@@ -13,6 +13,7 @@ router.post('/', isAdmin, async (req, res) => {
         res.status(201).json(createdWatch);
 
     } catch (err) {
+        console.log(err);
         const error = mapErrors(err);
         console.error(error);
         res.status(400).json({ message: error });
@@ -47,6 +48,18 @@ router.get('/women', async (req, res) => {
     try {
         const watches = await watchService.getWatchesByType('Дамски');
         res.status(200).json(watches);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
+router.get('/brandsLogo', async (req, res) => {
+    try {
+        const brands = await watchService.getBrandsLogo();
+        res.status(200).json(brands);
 
     } catch (err) {
         const error = mapErrors(err);
@@ -99,5 +112,18 @@ router.delete('/:watchId', isAdmin, async (req, res) => {
     }
 });
 
+router.post('/brandsLogo', async (req, res) => {
+    const brand = req.body;
+    try {
+        const createBrand = await watchService.addBrand(brand);
+        res.status(201).json(createBrand);
+
+    } catch (err) {
+        console.log(err);
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
 
 module.exports = router;
