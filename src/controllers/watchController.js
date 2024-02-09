@@ -32,6 +32,33 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/paginated', async (req, res) => {
+    let page = req.query.page ? Number(req.query.page) : 1;
+    let limit = req.query.limit ? Number(req.query.limit) : 12;
+
+    try {
+        const watches = await watchService.getAllPaginated(page, limit);
+        res.status(200).json(watches);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
+router.get('/count', async (req, res) => {
+    try {
+        const count = await watchService.getWatchesCount();
+        res.status(200).json(count);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 router.get('/men', async (req, res) => {
     try {
         const watches = await watchService.getWatchesByType('Мъжки');
