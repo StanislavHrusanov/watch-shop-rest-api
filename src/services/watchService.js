@@ -9,7 +9,9 @@ exports.getAllPaginated = (page, limit) => Watch.find().sort({ createdAt: -1 }).
 
 exports.getWatchesCount = () => Watch.countDocuments({});
 
-exports.getWatchesByType = (type) => Watch.find({ type: type }).sort({ createdAt: -1 });
+exports.getWatchesByType = (type, page, limit) => Watch.find({ type: type }).sort({ createdAt: -1 }).limit(limit * 1).skip((page - 1) * limit);
+
+exports.getWatchesByTypeCount = (type) => Watch.countDocuments({ type: type });
 
 exports.getOne = (watchId) => Watch.findById(watchId);
 
