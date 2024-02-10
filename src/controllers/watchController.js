@@ -59,10 +59,11 @@ router.get('/count', async (req, res) => {
     }
 });
 
-router.get('/men', async (req, res) => {
+router.get('/count/types/:type', async (req, res) => {
+    const type = req.params.type;
     try {
-        const watches = await watchService.getWatchesByType('Мъжки');
-        res.status(200).json(watches);
+        const count = await watchService.getWatchesByTypeCount(type);
+        res.status(200).json(count);
 
     } catch (err) {
         const error = mapErrors(err);
@@ -71,9 +72,13 @@ router.get('/men', async (req, res) => {
     }
 });
 
-router.get('/women', async (req, res) => {
+router.get('/types/:type', async (req, res) => {
+    const type = req.params.type;
+    let page = req.query.page ? Number(req.query.page) : 1;
+    let limit = req.query.limit ? Number(req.query.limit) : 12;
+
     try {
-        const watches = await watchService.getWatchesByType('Дамски');
+        const watches = await watchService.getWatchesByType(type, page, limit);
         res.status(200).json(watches);
 
     } catch (err) {
