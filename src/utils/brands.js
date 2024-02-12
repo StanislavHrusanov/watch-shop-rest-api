@@ -1,0 +1,20 @@
+exports.brands = {
+    all: {},
+    Casio: { brand: 'Casio' },
+    Certina: { brand: 'Certina' },
+    Citizen: { brand: 'Citizen' },
+    Diesel: { brand: 'Diesel' },
+    Festina: { brand: 'Festina' },
+    Fossil: { brand: 'Fossil' },
+    Invicta: { brand: 'Invicta' },
+    'Jaques Lemans': { brand: 'Jaques Lemans' },
+    Luminox: { brand: 'Luminox' },
+    Orient: { brand: 'Orient' },
+    Police: { brand: 'Police' },
+    Sector: { brand: 'Sector' },
+    Seiko: { brand: 'Seiko' },
+    Timex: { brand: 'Timex' },
+    Tissot: { brand: 'Tissot' },
+    Victorinox: { brand: 'Victorinox' },
+    'Vostok Europe': { brand: 'Vostok Europe' }
+}
