@@ -3,6 +3,9 @@ const watchService = require('../services/watchService');
 const validation = require('../utils/validation');
 const { mapErrors } = require('../utils/errorMapper');
 const { isAdmin } = require('../middlewares/routGuards');
+const { sortedBy } = require('../utils/sortedBy');
+const { types } = require('../utils/types');
+const { brands } = require('../utils/brands');
 
 router.post('/', async (req, res) => {
     const watch = req.body;
@@ -33,11 +36,13 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/paginated', async (req, res) => {
+    let filteredByCriteria = req.query.filteredByCriteria;
+    let sortedByCriteria = req.query.sortedByCriteria;
     let page = req.query.page ? Number(req.query.page) : 1;
     let limit = req.query.limit ? Number(req.query.limit) : 12;
 
     try {
-        const watches = await watchService.getAllPaginated(page, limit);
+        const watches = await watchService.getAllPaginated(types[filteredByCriteria], sortedBy[sortedByCriteria], page, limit);
         res.status(200).json(watches);
 
     } catch (err) {
@@ -48,8 +53,10 @@ router.get('/paginated', async (req, res) => {
 });
 
 router.get('/count', async (req, res) => {
+    const type = req.query.type;
+    const brand = req.params.brand;
     try {
-        const count = await watchService.getWatchesCount();
+        const count = await watchService.getWatchesCount(types[type], brands[brand]);
         res.status(200).json(count);
 
     } catch (err) {
