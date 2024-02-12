@@ -13,6 +13,10 @@ exports.getWatchesByType = (type, page, limit) => Watch.find({ type: type }).sor
 
 exports.getWatchesByTypeCount = (type) => Watch.countDocuments({ type: type });
 
+exports.getWatchesByBrand = (brand, page, limit) => Watch.find({ brand: brand }).sort({ createdAt: -1 }).limit(limit * 1).skip((page - 1) * limit);
+
+exports.getWatchesByBrandCount = (brand) => Watch.countDocuments({ brand: brand });
+
 exports.getOne = (watchId) => Watch.findById(watchId);
 
 exports.edit = (watchId, watchData) => Watch.findByIdAndUpdate(watchId, watchData);

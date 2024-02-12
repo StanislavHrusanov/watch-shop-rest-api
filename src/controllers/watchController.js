@@ -72,6 +72,19 @@ router.get('/count/types/:type', async (req, res) => {
     }
 });
 
+router.get('/count/brands/:brand', async (req, res) => {
+    const brand = req.params.brand;
+    try {
+        const count = await watchService.getWatchesByBrandCount(brand);
+        res.status(200).json(count);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 router.get('/types/:type', async (req, res) => {
     const type = req.params.type;
     let page = req.query.page ? Number(req.query.page) : 1;
@@ -98,6 +111,22 @@ router.get('/brandsLogo', async (req, res) => {
         console.error(error);
         res.status(400).json({ message: error });
     }
+});
+
+router.get('/brands/:brand', async (req, res) => {
+    const brand = req.params.brand;
+    let page = req.query.page ? Number(req.query.page) : 1;
+    let limit = req.query.limit ? Number(req.query.limit) : 12;
+
+    try {
+        const watches = await watchService.getWatchesByBrand(brand, page, limit);
+        res.status(200).json(watches);
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+
 });
 
 router.get('/:watchId', async (req, res) => {
