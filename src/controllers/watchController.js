@@ -8,7 +8,23 @@ const { types } = require('../utils/types');
 const { brands } = require('../utils/brands');
 
 router.post('/', async (req, res) => {
-    const watch = req.body;
+    const watch = {
+        title: req.body.title,
+        brand: req.body.brand,
+        model: req.body.model,
+        imageUrl: req.body.imageUrl,
+        price: Number(req.body.price),
+        type: req.body.type,
+        movement: req.body.movement,
+        glass: req.body.glass,
+        waterResistance: req.body.waterResistance,
+        diameter: req.body.diameter,
+        bodyMaterial: req.body.bodyMaterial,
+        strapMaterial: req.body.strapMaterial,
+        warrantyInYears: req.body.warrantyInYears,
+        quantity: Number(req.body.quantity),
+        description: req.body.description
+    };
 
     try {
         validation.validateWatch(watch);
@@ -51,6 +67,21 @@ router.get('/paginated', async (req, res) => {
         res.status(400).json({ message: error });
     }
 });
+
+router.get('/similarWatches', async (req, res) => {
+    const brand = req.query.brand;
+    const watchId = req.query.watchId;
+
+    try {
+        const similarWatches = await watchService.getSimilarWatches(brand, watchId);
+        res.status(200).json(similarWatches);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+})
 
 router.get('/count', async (req, res) => {
     const type = req.query.type;
@@ -110,14 +141,31 @@ router.get('/:watchId', async (req, res) => {
     }
 });
 
-router.put('/:watchId', isAdmin, async (req, res) => {
+router.put('/:watchId', async (req, res) => {
     const watchId = req.params.watchId;
-    const watchData = req.body;
+    const watchData = {
+        title: req.body.title,
+        brand: req.body.brand,
+        model: req.body.model,
+        imageUrl: req.body.imageUrl,
+        price: Number(req.body.price),
+        oldPrice: Number(req.body.oldPrice),
+        type: req.body.type,
+        movement: req.body.movement,
+        glass: req.body.glass,
+        waterResistance: req.body.waterResistance,
+        diameter: req.body.diameter,
+        bodyMaterial: req.body.bodyMaterial,
+        strapMaterial: req.body.strapMaterial,
+        warrantyInYears: req.body.warrantyInYears,
+        quantity: Number(req.body.quantity),
+        description: req.body.description
+    };
 
     try {
         validation.validateWatch(watchData);
         const editedWatch = await watchService.edit(watchId, watchData);
-        res.status(200).json(editedWatch);
+        res.json(editedWatch);
 
     } catch (err) {
         const error = mapErrors(err);

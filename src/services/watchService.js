@@ -20,3 +20,5 @@ exports.delete = (watchId) => Watch.findByIdAndDelete(watchId);
 exports.getBrandsLogo = () => Brand.find().sort({ brand: 1 });
 
 exports.addBrand = (brand) => Brand.create(brand);
+
+exports.getSimilarWatches = (brand, watchId) => Watch.find({ brand: brand, _id: { $nin: [watchId] } }).sort({ createdAt: -1 }).limit(4);
