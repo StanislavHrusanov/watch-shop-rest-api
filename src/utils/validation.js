@@ -40,6 +40,7 @@ exports.validateWatch = ({
     model,
     imageUrl,
     price,
+    oldPrice,
     type,
     movement,
     glass,
@@ -65,7 +66,7 @@ exports.validateWatch = ({
     if (!imageUrl.match(/https*:\/\/.*/g)) {
         throw 'Невалиден линк към снимка!';
     }
-    if (!price.match(/^[0-9]+$/g)) {
+    if (typeof price !== 'number' || price < 0) {
         throw 'Цената е задължителна и трябва да бъде положително число!';
     }
     if (!types.includes(type)) {
@@ -95,7 +96,7 @@ exports.validateWatch = ({
     if (!warrantyInYears.match(/^[1-9][0-9]*$/g)) {
         throw 'Гаранцията е задължителна и трябва да бъде положително число!';
     }
-    if (!quantity.match(/^[0-9]+$/g)) {
+    if (typeof quantity !== 'number' || quantity < 0) {
         throw 'Количеството е задължително и трябва да бъде положително число!';
     }
     if (typeof description !== 'object') {
