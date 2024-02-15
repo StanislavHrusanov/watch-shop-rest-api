@@ -6,7 +6,7 @@ const { SALT_ROUNDS, SECRET } = require('../config/env');
 exports.createSession = async (user) => {
     const payload = {
         _id: user._id,
-        username: user.username,
+        email: user.email,
         isAdmin: user.isAdmin
     }
 
@@ -16,23 +16,22 @@ exports.createSession = async (user) => {
 
     return {
         _id: user._id,
-        username: user.username,
+        email: user.email,
         isAdmin: user.isAdmin,
         accessToken
     }
 }
 
-exports.register = async ({ username, firstName, lastName, password, email, address, phoneNumber }) => {
-    const user = await User.findOne({ username });
+exports.register = async ({ firstName, lastName, password, email, address, phoneNumber }) => {
+    const user = await User.findOne({ email });
 
     if (user) {
-        throw 'Това потребителско име вече съществува!';
+        throw 'Този имейл адрес вече съществува!';
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     const createdUser = await User.create({
-        username,
         firstName,
         lastName,
         password: hashedPassword,
@@ -44,17 +43,17 @@ exports.register = async ({ username, firstName, lastName, password, email, addr
     return this.createSession(createdUser);
 }
 
-exports.login = async ({ username, password }) => {
-    const user = await User.findOne({ username });
+exports.login = async ({ email, password }) => {
+    const user = await User.findOne({ email });
 
     if (!user) {
-        throw 'Невалидно потребителско име или парола!';
+        throw 'Невалиден имейл адрес или парола!';
     }
 
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
-        throw 'Невалидно потребителско име или парола!';
+        throw 'Невалиден имейл адрес или парола!';
     }
 
     return this.createSession(user);
