@@ -23,7 +23,7 @@ exports.createSession = async (user) => {
 }
 
 exports.register = async ({ firstName, lastName, password, email, address, phoneNumber }) => {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
     if (user) {
         throw 'Този имейл адрес вече съществува!';
@@ -44,7 +44,7 @@ exports.register = async ({ firstName, lastName, password, email, address, phone
 }
 
 exports.login = async ({ email, password }) => {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
     if (!user) {
         throw 'Невалиден имейл адрес или парола!';
