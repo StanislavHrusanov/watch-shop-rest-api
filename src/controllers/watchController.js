@@ -7,7 +7,7 @@ const { sortedBy } = require('../utils/sortedBy');
 const { types } = require('../utils/types');
 const { brands } = require('../utils/brands');
 
-router.post('/', async (req, res) => {
+router.post('/', isAdmin, async (req, res) => {
     const watch = {
         title: req.body.title,
         brand: req.body.brand,
@@ -141,7 +141,7 @@ router.get('/:watchId', async (req, res) => {
     }
 });
 
-router.put('/:watchId', async (req, res) => {
+router.put('/:watchId', isAdmin, async (req, res) => {
     const watchId = req.params.watchId;
     const watchData = {
         title: req.body.title,
