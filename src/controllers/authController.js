@@ -3,11 +3,21 @@ const authService = require('../services/authService');
 const validation = require('../utils/validation');
 const { mapErrors } = require('../utils/errorMapper');
 const { isGuest, isLoggedIn } = require('../middlewares/authMiddleware');
+const { trimUserData } = require('../utils/trimUserData');
 
 router.post('/register', isGuest, async (req, res) => {
-    const userData = req.body;
+    const userData = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: req.body.password,
+        repass: req.body.repass,
+        email: req.body.email,
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber
+    };
 
     try {
+        trimUserData(userData);
         validation.validateUser(userData);
 
         const userSession = await authService.register(userData);
@@ -21,13 +31,16 @@ router.post('/register', isGuest, async (req, res) => {
 });
 
 router.post('/login', isGuest, async (req, res) => {
-    const userData = req.body;
-    userData.username = userData.username.trim();
-    userData.password = userData.password.trim();
+    const userData = {
+        email: req.body.email,
+        password: req.body.password
+    };
 
     try {
-        if (userData.username == '' || userData.password == '') {
-            throw ('Невалидно потребителско име или парола!');
+        trimUserData(userData);
+
+        if (userData.email == '' || userData.password == '') {
+            throw ('Невалиден имейл или парола!');
         }
 
         const userSession = await authService.login(userData);
