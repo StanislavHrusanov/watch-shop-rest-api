@@ -1,5 +1,4 @@
 exports.validateUser = ({
-    username,
     firstName,
     lastName,
     password,
@@ -8,9 +7,6 @@ exports.validateUser = ({
     address,
     phoneNumber
 }) => {
-    if (username.length < 3 || username.includes(' ')) {
-        throw ('Потребителското име трябва да съдържа поне 3 символа различни от интервал!');
-    }
     if (!firstName.match(/^[А-Я][а-я]*$|^[A-Z][a-z]*$/gm)) {
         throw ('Името трябва да започва с главна буква и да се състои само от букви на кирилица или латиница!');
     }
