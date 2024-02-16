@@ -21,7 +21,8 @@ const watchSchema = new mongoose.Schema({
         required: true
     },
     oldPrice: {
-        type: Number
+        type: Number,
+        default: 0
     },
     type: {
         type: String,
