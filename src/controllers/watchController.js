@@ -32,7 +32,6 @@ router.post('/', isAdmin, async (req, res) => {
         res.status(201).json(createdWatch);
 
     } catch (err) {
-        console.log(err);
         const error = mapErrors(err);
         console.error(error);
         res.status(400).json({ message: error });
@@ -195,7 +194,6 @@ router.post('/brandsLogo', async (req, res) => {
         res.status(201).json(createBrand);
 
     } catch (err) {
-        console.log(err);
         const error = mapErrors(err);
         console.error(error);
         res.status(400).json({ message: error });
