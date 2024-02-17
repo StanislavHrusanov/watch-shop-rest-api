@@ -2,6 +2,12 @@ const User = require('../models/User');
 
 exports.getUserInfo = (userId) => User.findById(userId);
 
+exports.getUserWishlist = async (userId) => {
+    const user = await User.findById(userId).populate('wishlist');
+
+    return user.wishlist;
+}
+
 exports.updateWishlist = async (userId, watchId) => {
     const user = await User.findById(userId);
 
