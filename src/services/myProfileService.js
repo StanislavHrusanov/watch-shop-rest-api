@@ -14,7 +14,7 @@ exports.updateWishlist = async (userId, watchId) => {
     const isAlreadyAdded = user.wishlist.some(x => x == watchId);
 
     if (!isAlreadyAdded) {
-        user.wishlist.push(watchId);
+        user.wishlist.unshift(watchId);
         await user.save();
 
     } else {
