@@ -44,6 +44,21 @@ router.put('/wishlist/update', async (req, res) => {
     }
 });
 
+router.put('/wishlist/remove', async (req, res) => {
+    const userId = req.query.userId;
+    const watchId = req.query.watchId;
+
+    try {
+        const wishlist = await myProfileService.removeFromWishlist(userId, watchId);
+        res.json(wishlist);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 
 
 module.exports = router;
