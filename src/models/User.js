@@ -37,8 +37,13 @@ const userSchema = new mongoose.Schema({
     ],
     cart: [
         {
-            type: mongoose.Types.ObjectId,
-            ref: 'Watch'
+            watch: {
+                type: mongoose.Types.ObjectId,
+                ref: 'Watch'
+            },
+            qty: {
+                type: Number
+            }
         }
     ],
     myOrders: [
