@@ -31,3 +31,19 @@ exports.removeFromWishlist = async (userId, watchId) => {
 
     return user.wishlist;
 }
+
+exports.addToCart = async (userId, watchId, qty) => {
+    const user = await User.findById(userId);
+
+    const isAlreadyAdded = user.cart.some(x => x.watch == watchId);
+
+    if (!isAlreadyAdded) {
+        user.cart.unshift({ watch: watchId, qty: qty })
+    } else {
+        const indexOfWatch = user.cart.findIndex(x => x.watch == watchId);
+        user.cart[indexOfWatch].qty = qty;
+    }
+    user.save();
+
+    return user.cart;
+}
