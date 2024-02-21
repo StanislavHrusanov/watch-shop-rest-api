@@ -51,3 +51,15 @@ exports.addToCart = async (userId, watchId, qty) => {
 
     return updatedUser.cart;
 }
+
+exports.decreaseQty = async (userId, watchId, qty) => {
+    const user = await User.findById(userId).populate('cart.watch');
+
+    const indexOfWatch = user.cart.findIndex(x => x.watch._id == watchId);
+    user.cart[indexOfWatch].qty = qty;
+    await user.save();
+
+    const updatedUser = await User.findById(userId).populate('cart.watch');
+
+    return updatedUser.cart;
+}

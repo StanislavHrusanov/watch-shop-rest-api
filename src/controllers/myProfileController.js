@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const myProfileService = require('../services/myProfileService');
 const watchService = require('../services/watchService');
+const { mapErrors } = require('../utils/errorMapper');
 
 router.get('/userInfo', async (req, res) => {
     const userId = req.query.userId;
@@ -59,6 +60,30 @@ router.put('/cart/add', async (req, res) => {
         const cart = await myProfileService.addToCart(userId, watchId, qty);
         res.json(cart);
     } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
+router.put('/cart/decreaseQty', async (req, res) => {
+    const userId = req.query.userId;
+    const watchId = req.query.watchId;
+    const qty = Number(req.query.qty);
+
+    try {
+        const watch = await watchService.getOne(watchId);
+
+        if (watch.quantity == 0) {
+            const cart = await myProfileService.decreaseQty(userId, watchId, 0);
+            res.json(cart);
+
+        } else {
+            const cart = await myProfileService.decreaseQty(userId, watchId, qty);
+            res.json(cart);
+        }
+    } catch (err) {
+        console.error(err);
         const error = mapErrors(err);
         console.error(error);
         res.status(400).json({ message: error });
