@@ -1,6 +1,6 @@
 const User = require('../models/User');
 
-exports.getUserInfo = (userId) => User.findById(userId).populate('wishlist');
+exports.getUserInfo = (userId) => User.findById(userId).populate('wishlist').populate('cart.watch');
 
 exports.updateWishlist = async (userId, watchId) => {
     const user = await User.findById(userId).populate('wishlist');
@@ -33,17 +33,21 @@ exports.removeFromWishlist = async (userId, watchId) => {
 }
 
 exports.addToCart = async (userId, watchId, qty) => {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate('cart.watch');
 
-    const isAlreadyAdded = user.cart.some(x => x.watch == watchId);
+    const isAlreadyAdded = user.cart.some(x => x.watch._id == watchId);
 
     if (!isAlreadyAdded) {
         user.cart.unshift({ watch: watchId, qty: qty })
+        await user.save();
     } else {
-        const indexOfWatch = user.cart.findIndex(x => x.watch == watchId);
+        const indexOfWatch = user.cart.findIndex(x => x.watch._id == watchId);
         user.cart[indexOfWatch].qty = qty;
-    }
-    user.save();
+        await user.save();
 
-    return user.cart;
+    }
+
+    const updatedUser = await User.findById(userId).populate('cart.watch');
+
+    return updatedUser.cart;
 }
