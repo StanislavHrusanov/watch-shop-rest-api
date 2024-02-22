@@ -52,6 +52,19 @@ exports.addToCart = async (userId, watchId, qty) => {
     return updatedUser.cart;
 }
 
+exports.removeFromCart = async (userId, watchId) => {
+    const user = await User.findById(userId).populate('cart.watch');
+
+    const indexOfWatch = user.cart.findIndex(x => x.watch._id == watchId);
+
+    if (indexOfWatch != -1) {
+        user.cart.splice(indexOfWatch, 1);
+        await user.save();
+    }
+
+    return user.cart;
+}
+
 exports.decreaseQty = async (userId, watchId, qty) => {
     const user = await User.findById(userId).populate('cart.watch');
 

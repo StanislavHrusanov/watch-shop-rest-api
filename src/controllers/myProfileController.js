@@ -66,6 +66,21 @@ router.put('/cart/add', async (req, res) => {
     }
 });
 
+router.put('/cart/remove', async (req, res) => {
+    const userId = req.query.userId;
+    const watchId = req.query.watchId;
+
+    try {
+
+        const cart = await myProfileService.removeFromCart(userId, watchId);
+        res.json(cart);
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 router.put('/cart/decreaseQty', async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
