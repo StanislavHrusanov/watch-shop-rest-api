@@ -11,6 +11,9 @@ const orderSchema = new mongoose.Schema({
     },
     items: [
         {
+            _id: {
+                type: mongoose.Types.ObjectId
+            },
             title: {
                 type: String
             },
