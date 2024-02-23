@@ -76,3 +76,19 @@ exports.decreaseQty = async (userId, watchId, qty) => {
 
     return updatedUser.cart;
 }
+
+exports.updateUserCart = async (userId) => {
+    const user = await this.getUserInfo(userId);
+
+    for (let i = 0; i < user.cart.length; i++) {
+        let currentWatch = user.cart[i];
+
+        if (currentWatch.watch.quantity < currentWatch.qty) {
+            currentWatch.qty = currentWatch.watch.quantity;
+        }
+    }
+
+    await user.save();
+
+    return user;
+}

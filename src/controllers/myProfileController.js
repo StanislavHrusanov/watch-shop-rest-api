@@ -17,6 +17,20 @@ router.get('/userInfo', async (req, res) => {
     }
 });
 
+router.put('/userInfo/updateCart', async (req, res) => {
+    const userId = req.query.userId;
+
+    try {
+        const updatedUser = await myProfileService.updateUserCart(userId);
+        res.json(updatedUser);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 router.put('/wishlist/update', async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
