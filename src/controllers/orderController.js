@@ -19,4 +19,16 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const allOrders = await orderService.getAll();
+        res.status(200).json(allOrders);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 module.exports = router;
