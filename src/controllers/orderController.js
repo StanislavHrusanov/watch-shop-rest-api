@@ -31,4 +31,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/specificUserOrders', async (req, res) => {
+    const userId = req.query.userId;
+    try {
+        const userOrders = await orderService.getSpecificUserOrders(userId);
+        res.status(200).json(userOrders);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 module.exports = router;
