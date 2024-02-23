@@ -92,3 +92,13 @@ exports.updateUserCart = async (userId) => {
 
     return user;
 }
+
+exports.cleanCart = async (userId) => {
+    const user = await this.getUserInfo(userId);
+
+    user.cart = [];
+
+    await user.save();
+
+    return user;
+}
