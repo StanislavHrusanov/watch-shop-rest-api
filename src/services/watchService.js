@@ -22,3 +22,16 @@ exports.getBrandsLogo = () => Brand.find().sort({ brand: 1 });
 exports.addBrand = (brand) => Brand.create(brand);
 
 exports.getSimilarWatches = (brand, watchId) => Watch.find({ brand: brand, _id: { $nin: [watchId] } }).sort({ createdAt: -1 }).limit(4);
+
+exports.updateWatchesQty = async (items) => {
+    const ids = items.map(x => x._id);
+    const qty = items.map(x => x.quantity);
+
+    for (let i = 0; i < ids.length; i++) {
+        const watch = await Watch.findById(ids[i]);
+        watch.quantity -= qty[i];
+
+        await watch.save()
+    }
+    return;
+}
