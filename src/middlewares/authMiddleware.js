@@ -12,11 +12,11 @@ exports.auth = async (req, res, next) => {
             req.user = verifiedToken;
         }
 
+        next();
 
     } catch (error) {
         res.status(498).json({ message: 'Невалиден токен!' });
     }
-    next();
 
 }
 
