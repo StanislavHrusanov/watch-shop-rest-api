@@ -44,4 +44,17 @@ router.get('/specificUserOrders', async (req, res) => {
     }
 });
 
+router.put('/changeOrderStatus', async (req, res) => {
+    const orderId = req.query.orderId;
+    try {
+        const changedStatus = await orderService.changeOrderStatus(orderId);
+        res.status(200).json(changedStatus);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 module.exports = router;
