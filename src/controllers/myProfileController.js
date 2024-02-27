@@ -1,9 +1,11 @@
 const router = require('express').Router();
+const { isLoggedIn } = require('../middlewares/authMiddleware');
+const { isNotAdmin } = require('../middlewares/routGuards');
 const myProfileService = require('../services/myProfileService');
 const watchService = require('../services/watchService');
 const { mapErrors } = require('../utils/errorMapper');
 
-router.get('/userInfo', async (req, res) => {
+router.get('/userInfo', isLoggedIn, async (req, res) => {
     const userId = req.query.userId;
 
     try {
@@ -17,7 +19,7 @@ router.get('/userInfo', async (req, res) => {
     }
 });
 
-router.put('/userInfo/updateCart', async (req, res) => {
+router.put('/userInfo/updateCart', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
 
     try {
@@ -31,7 +33,7 @@ router.put('/userInfo/updateCart', async (req, res) => {
     }
 });
 
-router.put('/userInfo/cleanCart', async (req, res) => {
+router.put('/userInfo/cleanCart', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
 
     try {
@@ -45,7 +47,7 @@ router.put('/userInfo/cleanCart', async (req, res) => {
     }
 });
 
-router.put('/wishlist/update', async (req, res) => {
+router.put('/wishlist/update', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
 
@@ -60,7 +62,7 @@ router.put('/wishlist/update', async (req, res) => {
     }
 });
 
-router.put('/wishlist/remove', async (req, res) => {
+router.put('/wishlist/remove', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
 
@@ -75,7 +77,7 @@ router.put('/wishlist/remove', async (req, res) => {
     }
 });
 
-router.put('/cart/add', async (req, res) => {
+router.put('/cart/add', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
     const qty = Number(req.query.qty);
@@ -94,7 +96,7 @@ router.put('/cart/add', async (req, res) => {
     }
 });
 
-router.put('/cart/remove', async (req, res) => {
+router.put('/cart/remove', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
 
@@ -109,7 +111,7 @@ router.put('/cart/remove', async (req, res) => {
     }
 });
 
-router.put('/cart/decreaseQty', async (req, res) => {
+router.put('/cart/decreaseQty', isLoggedIn, isNotAdmin, async (req, res) => {
     const userId = req.query.userId;
     const watchId = req.query.watchId;
     const qty = Number(req.query.qty);
@@ -132,7 +134,5 @@ router.put('/cart/decreaseQty', async (req, res) => {
         res.status(400).json({ message: error });
     }
 });
-
-
 
 module.exports = router;
