@@ -45,12 +45,6 @@ const userSchema = new mongoose.Schema({
                 type: Number
             }
         }
-    ],
-    myOrders: [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: 'Order'
-        }
     ]
 });
 
