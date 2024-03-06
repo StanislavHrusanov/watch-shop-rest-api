@@ -7,7 +7,7 @@ exports.getAll = () => Watch.find().sort({ createdAt: -1 });
 
 exports.getAllPaginated = (filteredBy, sortedBy, page, limit) => Watch.find(filteredBy).sort(sortedBy).limit(limit * 1).skip((page - 1) * limit);
 
-exports.getWatchesCount = (type, brand) => Watch.countDocuments({ ...type, ...brand });
+exports.getWatchesCount = (type, brand, searched) => Watch.countDocuments({ ...type, ...brand, "title": { $regex: searched, $options: "i" } });
 
 exports.getWatchesByBrand = (brand, type, sortedBy, page, limit) => Watch.find({ ...brand, ...type }).sort(sortedBy).limit(limit * 1).skip((page - 1) * limit);
 
@@ -35,3 +35,9 @@ exports.updateWatchesQty = async (items) => {
     }
     return;
 }
+
+exports.search = (searched, filteredBy, sortedBy, page, limit) => Watch
+    .find({ "title": { $regex: searched, $options: "i" }, ...filteredBy })
+    .sort(sortedBy)
+    .limit(limit * 1)
+    .skip((page - 1) * limit);

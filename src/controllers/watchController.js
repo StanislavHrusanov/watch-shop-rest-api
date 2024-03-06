@@ -67,6 +67,24 @@ router.get('/paginated', async (req, res) => {
     }
 });
 
+router.get('/search', async (req, res) => {
+    let searched = req.query.searched;
+    let filteredByCriteria = req.query.filteredByCriteria;
+    let sortedByCriteria = req.query.sortedByCriteria;
+    let page = req.query.page ? Number(req.query.page) : 1;
+    let limit = req.query.limit ? Number(req.query.limit) : 12;
+
+    try {
+        const watches = await watchService.search(searched, types[filteredByCriteria], sortedBy[sortedByCriteria], page, limit);
+        res.status(200).json(watches);
+
+    } catch (err) {
+        const error = mapErrors(err);
+        console.error(error);
+        res.status(400).json({ message: error });
+    }
+});
+
 router.get('/similarWatches', async (req, res) => {
     const brand = req.query.brand;
     const watchId = req.query.watchId;
@@ -85,8 +103,9 @@ router.get('/similarWatches', async (req, res) => {
 router.get('/count', async (req, res) => {
     const type = req.query.type;
     const brand = req.query.brand;
+    const searched = req.query.searched;
     try {
-        const count = await watchService.getWatchesCount(types[type], brands[brand]);
+        const count = await watchService.getWatchesCount(types[type], brands[brand], searched);
         res.status(200).json(count);
 
     } catch (err) {
