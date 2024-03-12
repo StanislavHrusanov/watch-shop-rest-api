@@ -39,7 +39,7 @@ x-authorization: {token}
 ## Watch Service
 
 #### Add watch
-Crating a new watch by sending a `POST` authorized request to `/watches` with properties `title`, `brand`, `model`, `imageUrl`, `price`, `type`, `movement`, `glass`, `waterResistance`, `diameter`, `bodyMaterial`, `strapMaterial`, `warrantyInYears`, `quantity` and `description`. The service create a new wathch and returns it like an object. Only admin can add new watches!!!
+Crating a new watch by sending a `POST` authorized request to `/watches` with properties `title`, `brand`, `model`, `imageUrl`, `price`, `type`, `movement`, `glass`, `waterResistance`, `diameter`, `bodyMaterial`, `strapMaterial`, `warrantyInYears`, `quantity` and `description`. The service create a new watch and returns it like an object. Only admin can add new watches!!!
 
 #### Get all watches 
 
