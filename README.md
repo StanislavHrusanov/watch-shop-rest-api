@@ -12,7 +12,7 @@
 ## Usage
 
 This is a **REST service**, created by Express and used for online watch store.
-To start the server just open the terminal and enter `npm install` to install the dependencies and `npm start` to start the server. The server will listen on `http://localhost:3001`.
+To start the server just open the terminal and enter `npm install` to install the dependencies and `npm start` to start the server. The server will listen on `http://localhost:3003`.
 
 #### CRUD Operations
 
